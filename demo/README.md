@@ -17,6 +17,6 @@
 	 -s,--split <arg>       the split string in words(default is ' ')
 
 
-例如，创建100行，每行 10列的单词，单词最短 5 个字符，最长 6 个字符，并且保存大 words.txt 文件中：
+例如，创建100行，每行 10列的单词，单词最短 5 个字符，最长 6 个字符，并且保存到 words.txt 文件中：
 
     java -cp demo.jar org.zbw.utils.RandomWordsCreater -m 5 -M 6 -r 100 -c 10 -o words.txt
