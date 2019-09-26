@@ -1,9 +1,10 @@
-# 1 Examples:
-
+# 1 工具说明
 
 ## 1.1 RandomWordsCreater
 
-Usage:
+**说明：创建随机单词**
+
+用法：
 
 	usage: Usage of RandomWordsCreater
 	 -c,--column <arg>      the column num of words to create(default is 10)
@@ -16,6 +17,6 @@ Usage:
 	 -s,--split <arg>       the split string in words(default is ' ')
 
 
-command:
+例如，创建100行，每行 10列的单词，单词最短 5 个字符，最长 6 个字符，并且保存大 words.txt 文件中：
 
-    java -cp demo.jar org.zbw.utils.RandomWordsCreater -m 5 -M 6 -r 100000 -c 300 -o word.txt
+    java -cp demo.jar org.zbw.utils.RandomWordsCreater -m 5 -M 6 -r 100 -c 10 -o words.txt
