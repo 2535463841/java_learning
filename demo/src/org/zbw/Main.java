@@ -14,13 +14,14 @@ public class Main {
 	
 	public static void registerClassHelper(String action, String className, String helpInfo) {
 		HashMap<String, String> classInfo = new HashMap<String, String>();
-		classInfo.put("name", className);
+		classInfo.put("class", className);
 		classInfo.put("helpInfo", helpInfo);
 		classMap.put(action, classInfo);
 	}
 	
 	public static void registerHashMap() {
 		registerClassHelper("RandomWordsCreater", "org.zbw.utils.RandomWordsCreater", "创建随机单词");
+		registerClassHelper("AutoClick", "org.zbw.robot.AutoClick", "自动点击窗口按钮，并且保存窗口截图");
 	}
 	
 	public static void printClassHelpInfo() {
@@ -42,15 +43,13 @@ public class Main {
 			System.exit(1);
 		}
 		
-		Class<?> classzz = Class.forName("org.zbw.utils.RandomWordsCreater");
+		Class<?> classzz = Class.forName(classMap.get(args[0]).get("class") );
 		Method method = classzz.getMethod("main", String [].class);
 		ArrayList<String> argsList = new ArrayList<>(Arrays.asList(args));
 		argsList.remove(0);
 
 		String[] newArgs = new String[argsList.size()];
 		argsList.toArray(newArgs);
-		
-		System.out.println(argsList.toArray(newArgs));
 		method.invoke(String.class, (Object) newArgs);
 	}
 }

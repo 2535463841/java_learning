@@ -8,6 +8,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
+import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import javax.imageio.ImageIO;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinDef.RECT;
+
 import com.sun.jna.platform.win32.WinUser;
 
 
@@ -57,25 +59,24 @@ public class BaseWindow {
 	public double getscalling() {
 		return this.scalling;
 	}
-	double getScalling() {
-		GraphicsDevice graphDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		DisplayMode disMode = graphDevice.getDisplayMode();
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		return (double) disMode.getWidth() / dimension.getWidth();
-	}
 	
-	public void moveMouseTo(int x, int y) { 
-		this.robot.mouseMove(x, y);
+	public void moveMouseTo(int x, int y) {
+		int actualX = (int) ((this.x + x) / this.scalling);
+		int actualY = (int) ((this.y + y) / this.scalling);
+	
+		this.robot.mouseMove(actualX, actualY);
 	}
 	public void delay(int second) {
 		this.robot.delay(second * 1000);
 	}
-	
-	private void setForeground() {
+	public void setForeground() {
 		User32.INSTANCE.SetForegroundWindow(this.hwnd);
 		User32.INSTANCE.ShowWindow(this.hwnd, WinUser.SW_RESTORE);
 	}
-	
+	public void hide() {
+		User32.INSTANCE.ShowWindow(this.hwnd, WinUser.SW_HIDE);
+	}
+
 	public void saveImageAsPNG(String filePath) throws IOException {
 		this.setForeground();
 		this.delay(3);
@@ -88,7 +89,14 @@ public class BaseWindow {
 		
 		BufferedImage image = this.robot.createScreenCapture(rectangle);
 		ImageIO.write(image, "PNG", new File(filePath));
-		
+	}
+	
+	public void mouseClick(int x, int y) {
+		this.setForeground();
+		this.delay(3);
+		this.moveMouseTo(x, y);
+		this.robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+		this.robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 	}
 	
 	public int getX() {

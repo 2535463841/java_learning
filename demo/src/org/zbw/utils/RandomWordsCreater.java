@@ -187,7 +187,6 @@ public class RandomWordsCreater {
 	
 	public static void main(String[] args) throws IOException, ParseException {
 		CommandLineParser parser = new BasicParser();
-		
 		Options options = new Options();
 		options.addOption("h", "help", false, "print help message");
 		options.addOption("m", "min-lenth", true, "the min length of word");
