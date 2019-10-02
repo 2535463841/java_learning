@@ -20,7 +20,6 @@ import com.sun.jna.platform.win32.WinDef.RECT;
 import com.sun.jna.platform.win32.WinUser;
 
 
-
 public class BaseWindow {
 	int x;
 	int y;

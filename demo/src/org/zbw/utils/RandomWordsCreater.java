@@ -17,7 +17,7 @@ import org.apache.commons.cli.ParseException;
 
 class RandomWord{
 	final static String LOWER_WORDS = "abcdefghijklmnopqrstuvwxyz";
-	char[] words; 
+	char[] words;
 	Random random;
 	
 	public RandomWord() {
@@ -107,7 +107,6 @@ class RandomWordsCreaterOutput extends BaseRandomWordsCreater{
 		super(minLength, maxLength, row, column);
 		this.split = split;
 	}
-
 	@Override
 	void dealWord(ArrayList<String> words) {
 		System.out.println(String.join(this.split, words));
@@ -123,7 +122,6 @@ class RandomWordsCreaterFile extends RandomWordsCreaterOutput{
 		super(minLength, maxLength, row, column);
 		this.output = output;
 		this.bufferedWriter = new BufferedWriter(new FileWriter(this.output));
-		
 	}
 	public RandomWordsCreaterFile(int minLength, int maxLength, int row, int column, String split, String output) throws IOException {
 		super(minLength, maxLength, row, column, split);
@@ -164,7 +162,6 @@ class RandomWordsCreaterFile extends RandomWordsCreaterOutput{
 		try {
 			this.processThread.join();
 			this.bufferedWriter.close();
-			
 			this.printDetails();
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
@@ -190,6 +187,7 @@ public class RandomWordsCreater {
 	
 	public static void main(String[] args) throws IOException, ParseException {
 		CommandLineParser parser = new BasicParser();
+		
 		Options options = new Options();
 		options.addOption("h", "help", false, "print help message");
 		options.addOption("m", "min-lenth", true, "the min length of word");
@@ -200,29 +198,32 @@ public class RandomWordsCreater {
 		options.addOption("s", "split", true, "the split string in words(default is '" + DEFAULT_SPLIT + "')");
 		
 		CommandLine commandLine = parser.parse(options, args);
-				
 		if (commandLine.hasOption("h") || !commandLine.hasOption("m") || !commandLine.hasOption("M")) {
 			HelpFormatter helpFormatter = new HelpFormatter();
 			helpFormatter.printHelp("Usage of RandomWordsCreater", options);
 			System.exit(1);
 		}
+		int minLength = Integer.valueOf(commandLine.getOptionValue("m"));
+		int maxLength = Integer.valueOf(commandLine.getOptionValue("M"));
+		if (maxLength < minLength) {
+			System.err.println("参数错误，单词最大长度 必须 >= 最小长度");
+			System.exit(1);
+		}
+
 		BaseRandomWordsCreater creater;
 		if (commandLine.hasOption("o")) {
 			creater = new RandomWordsCreaterFile(
-					Integer.valueOf(commandLine.getOptionValue("m")),
-					Integer.valueOf(commandLine.getOptionValue("M")),
+					minLength, maxLength,
 					Integer.valueOf(commandLine.getOptionValue("r", String.valueOf(DEFAULT_ROW))),
 					Integer.valueOf(commandLine.getOptionValue("c", String.valueOf(DEFAULT_COLUMN))),
 					commandLine.getOptionValue("s", DEFAULT_SPLIT), commandLine.getOptionValue("o"));
 		}else {
 			creater = new RandomWordsCreaterOutput(
-					Integer.valueOf(commandLine.getOptionValue("m")),
-					Integer.valueOf(commandLine.getOptionValue("M")),
+					minLength, maxLength,
 					Integer.valueOf(commandLine.getOptionValue("r", String.valueOf(DEFAULT_ROW))),
 					Integer.valueOf(commandLine.getOptionValue("c", String.valueOf(DEFAULT_COLUMN))),
 					commandLine.getOptionValue("s", DEFAULT_SPLIT));
 		}
 		creater.start();
-	
 	}
 }
