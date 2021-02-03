@@ -20,8 +20,7 @@ public class Main {
 	}
 	
 	public static void registerHashMap() {
-		registerClassHelper("RandomWordsCreater", "org.zbw.utils.RandomWordsCreater", "´´½¨Ëæ»úµ¥´Ê");
-		registerClassHelper("AutoClick", "org.zbw.robot.AutoClick", "×Ô¶¯µã»÷´°¿Ú°´Å¥£¬²¢ÇÒ±£´æ´°¿Ú½ØÍ¼");
+		registerClassHelper("AutoClick", "org.zbw.robot.AutoClick", "è‡ªåŠ¨ç‚¹å‡»çª—å£æŒ‰é’®ï¼Œå¹¶ä¸”ä¿å­˜çª—å£æˆªå›¾");
 	}
 	
 	public static void printClassHelpInfo() {
